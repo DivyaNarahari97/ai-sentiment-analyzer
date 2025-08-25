@@ -1,0 +1,77 @@
+/* frontend/src/App.css */
+
+body {
+  background: #f9fafb;
+  font-family: system-ui, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+textarea {
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea:focus {
+  border-color: #3b82f6; /* blue-500 */
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+  outline: none;
+}
+
+section {
+  margin-top: 2rem;
+}
+
+section h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+/* table styling */
+table {
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+th, td {
+  padding: 8px 10px;
+}
+
+th {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+td {
+  font-size: 14px;
+}
+
+tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+/* result label badges */
+.result-label {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
+
+.result-label.positive { background: #22c55e; } /* green */
+.result-label.neutral  { background: #facc15; color: #333; } /* yellow */
+.result-label.negative { background: #ef4444; } /* red */
