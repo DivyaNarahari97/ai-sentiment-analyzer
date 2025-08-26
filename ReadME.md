@@ -1,78 +1,42 @@
-# AI-Powered Product Review Sentiment Analyzer
+🎭 AI Sentiment Analyzer
 
-A full-stack web application that analyzes customer product reviews and classifies sentiment as **positive, negative, or neutral**.  
-Built with **React (frontend)** + **Flask (backend)** and powered by **Hugging Face Transformers, Scikit-learn, and heuristic models**.
+A full-stack web application for real-time and batch sentiment analysis.
+Built with React + Vite frontend and a Flask backend, integrated with Hugging Face Transformers, Scikit-learn, and a heuristic rule-based model.
 
----
+📌 Features
 
-## ✨ Features
+🔹 Frontend (React + Vite)
 
-### 🔹 Single Review Analysis
-- Real-time prediction as you type (debounced for performance).
-- Choose between **Hugging Face (transformer)**, **Scikit-learn (baseline)**, and **Heuristic (keyword)** models.
-- Confidence score + donut chart visualization.
+Responsive, modern UI (textarea, charts, file upload)
 
-### 🔹 Batch CSV Upload
-- Upload `.csv` with a `text` column.
-- Backend processes all rows and returns predictions.
-- Summary stats (counts, top keywords).
-- Bar chart visualization + detailed results table.
+Real-time single review analysis with delay/debounce
 
-### 🔹 Model Switcher
-- Dropdown in the UI to switch between models:
-  - **Hugging Face** → `cardiffnlp/twitter-roberta-base-sentiment-latest`
-  - **Scikit-learn** → TF-IDF + Logistic Regression (toy dataset)
-  - **Heuristic** → Simple keyword matching
-- Sent to backend via `X-Model` header.
+Batch CSV upload and analysis (counts, keywords, charts)
 
----
+Model selector (Hugging Face / Scikit-learn / Heuristic)
 
-## 🖥️ Tech Stack
+🔹 Backend (Flask)
 
-- **Frontend**
-  - React + Vite
-  - Chart.js (via `react-chartjs-2`)
-  - Modern responsive UI
+RESTful API with /api/health, /api/predict, /api/batch, /api/debug
 
-- **Backend**
-  - Flask (REST API)
-  - Hugging Face Transformers
-  - Scikit-learn (TF-IDF + Logistic Regression)
-  - Python utilities (csv, regex, Counter)
+Hugging Face cardiffnlp/twitter-roberta-base-sentiment-latest
 
----
+Scikit-learn: TF-IDF + Logistic Regression (toy dataset)
 
-## 📂 Project Structure
+Heuristic rules + keyword triggers for fallback/edge cases
 
-ai-sentiment-analyzer/
-│
-├── backend/
-│ ├── app.py # Flask app with ML models
-│ ├── requirements.txt # Python dependencies
-│ └── .venv1/ # (optional) virtual environment
-│
-├── frontend/
-│ ├── src/
-│ │ ├── App.jsx # Main UI
-│ │ ├── components/
-│ │ │ └── BatchUpload.jsx
-│ │ ├── api.js # API helpers
-│ │ ├── index.css
-│ │ └── main.jsx
-│ ├── package.json
-│ └── vite.config.js
-│
-└── README.md
+Batch CSV parsing with keyword summary & counts
 
+🔹 Models
 
+Hugging Face: Pre-trained transformer (POS/NEU/NEG)
 
----
+Scikit-learn: Lightweight ML baseline
 
-# ⚡ Quick Start
+Heuristic: Simple keyword-based rules with overrides
 
-## 1️⃣ Backend
-
-```bash
+⚙️ Installation & Run
+1️⃣ Backend (Flask)
 cd backend
 python3 -m venv .venv1
 source .venv1/bin/activate
@@ -83,68 +47,79 @@ pip install -r requirements.txt
 # Run server
 export API_TOKEN=dev-token
 python3 app.py
-# Server runs at: http://127.0.0.1:5000
 
 
-2️⃣ Frontend
+Runs at → http://127.0.0.1:5000
+
+2️⃣ Frontend (React + Vite)
 cd frontend
 npm install
 npm run dev
-# Frontend runs at: http://127.0.0.1:5173
 
 
----
+Runs at → http://127.0.0.1:5173
 
-##🔗 API Endpoints
-1. Health
+🔗 API Endpoints
+Health
 curl http://127.0.0.1:5000/api/health
-# → {"status": "ok"}
+# → {"status":"ok"}
 
-2. Predict
+Predict
 curl -X POST http://127.0.0.1:5000/api/predict \
   -H "Authorization: Bearer dev-token" \
   -H "Content-Type: application/json" \
   -H "X-Model: hf" \
   -d '{"text":"I love this!"}'
 
-3. Batch
+Batch
 printf 'text\nLove it\nWorst phone\nOkay product\n' > reviews.csv
 
-curl -X POST http://127.0.0.1:5000/api/batch \
+curl -X POST "http://127.0.0.1:5000/api/batch?col=text" \
   -H "Authorization: Bearer dev-token" \
   -H "X-Model: sk" \
   -F "file=@reviews.csv"
- 
 
-##Screenshots
-<img width="770" height="490" alt="image" src="https://github.com/user-attachments/assets/dd3597d6-079e-4926-a480-4f7607411602" />
-<img width="767" height="692" alt="image" src="https://github.com/user-attachments/assets/c18ca4a9-f56e-44fd-a439-8a8620bc5cf7" />
+📊 Screenshots
 
-Models
+<img width="772" height="490" alt="image" src="https://github.com/user-attachments/assets/8c7a28b6-873f-4c97-8bd4-b87ab80a4895" />
+<img width="757" height="599" alt="image" src="https://github.com/user-attachments/assets/bdba5427-67ea-43ec-901c-8866b76fd038" />
+
+
+
+🧠 Models
 
 Hugging Face
-
 cardiffnlp/twitter-roberta-base-sentiment-latest
-Pre-trained transformer for 3-class sentiment (positive / neutral / negative)
+→ Pre-trained 3-class transformer
 
 Scikit-learn
-
-TF-IDF vectorizer + Logistic Regression
-Trained on a small toy dataset (10 positive, 10 neutral, 10 negative)
+TF-IDF + Logistic Regression
+→ Trained on toy dataset (30 samples)
 
 Heuristic
+Rule-based triggers (love, hate, okay, etc.)
+→ Fast fallback model
 
-Rule-based keywords with trigger overrides for edge cases (“hate”, “okay”, etc.)
+🚀 Future Improvements
 
-Future Improvements
+ Hybrid model: Hugging Face embeddings + Scikit-learn classifier
 
-Add HF embeddings + Scikit-learn classifier (hybrid model).
+ Train and save/load real Scikit-learn models (joblib)
 
-Save/load real scikit-learn models (joblib) instead of toy inline training.
+ Loading spinners & error toasts in frontend
 
-Add spinners + error toasts in frontend.
+ Docker + AWS deployment for public demo
 
-Deploy with Docker + AWS for public demo.
+ Multi-language sentiment support
 
-Support multi-language sentiment analysis.
-
+📂 Project Structure
+ai-sentiment-analyzer/
+├── backend/         # Flask API + models
+│   ├── app.py
+│   ├── requirements.txt
+│   └── ...
+├── frontend/        # React + Vite UI
+│   ├── src/
+│   ├── package.json
+│   └── ...
+└── README.md
